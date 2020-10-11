@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Quick Pick</title>
+    </head>
+    <body>
+        <script>
+            function getQuickPickFive(arr){
+                for (var i = 0; i < 5; i++){
+                    arr[i] = Math.floor(Math.random() * 48) + 1; 
+                }
+            }
+
+            function getWinningFiveLucky(arr){
+                var wNums = prompt("Enter winning numbers separated by a space", "28 30 31 42 43")
+                var wLucky = prompt("Enter lucky ball number", 13)
+                wNums = wNums.split(" ")
+                
+                for (var i = 0; i < 5; i++){
+                    arr[i] = wNums[i]
+                }
+                return wLucky
+            }
+
+            function numSame(qp, win){
+                var count = 0
+                for (var i = 0; i < 5; i++){
+                    for (var j = 0; j < 5; j++){
+                        if (qp[i] == win[j]){
+                            count += 1
+                        }
+                    }
+                }
+                return count
+            }
+
+            function getWinnings(numSame, lBall){
+                switch (numSame) {
+                    case 0:
+                        if (lBall) {
+                            return "4"
+                        }
+                        else {
+                            return "0"
+                        }
+                    case 1:
+                        if (lBall) {
+                            return "6"
+                        }
+                        else {
+                            return "0"
+                        }
+                    case 2:
+                        if (lBall) {
+                            return "25"
+                        }
+                        else {
+                            return "3"
+                        }
+                    case 3:
+                        if (lBall) {
+                            return "150"
+                        }
+                        else {
+                            return "20"
+                        }
+                    case 4:
+                        if (lBall) {
+                            return "5,000"
+                        }
+                        else {
+                            return "200"
+                        }
+                    case 5:
+                        if (lBall) {
+                            return "7,000 a WEEK for LIFE"
+                        }
+                        else {
+                            return "25,000 a YEAR for LIFE"
+                        }
+                    default:
+                        return "0"
+                }
+            }
+
+            function writeBalls(arr, lBall, type){
+                var nums = ""
+                for (var i = 0; i < 5; i++){
+                    if (i < 4){
+                        nums += arr[i] + " "
+                    } else {
+                        nums += arr[i]
+                    }
+                }
+                document.write("<p>The " + type + " numbers are: " + 
+                                nums + "<br/>" + "The lucky ball number is " + lBall + "<br/></p>")
+            }
+
+            function checkLottery(){
+                var qPick = [0, 0, 0, 0, 0]
+                var wFive = [0, 0, 0, 0, 0]
+                getQuickPickFive(qPick)
+                var qLucky = Math.floor(Math.random() * 18) + 1
+                var wLucky = getWinningFiveLucky(wFive)
+
+                qPick.sort((function(a, b){return a - b}))
+                wFive.sort((function(a, b){return a - b}))
+
+                var nSame = numSame(qPick, wFive)
+                var gLucky = (qLucky == wLucky)
+                var wStatement = getWinnings(nSame, gLucky)
+
+                writeBalls(qPick, qLucky, "quick pick")
+                writeBalls(wFive, wLucky, "winning")
+
+                if (gLucky){
+                    document.write("<p>You got the lucky ball!<p>")
+                }
+                if (wStatement != "0"){
+                    document.write("<p>You win! Your payout is: $" + wStatement + "</p>")
+                } else {
+                    document.write("<p>No winnings for today :(</p>")
+                }
+            }
+        </script>
+        <script>
+            checkLottery()
+        </script>
+    </body>
+</html>
